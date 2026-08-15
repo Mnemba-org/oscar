@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}BVD | Wanachama{% endblock %}
+{% block content %}
+
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-id-card"></i> Wanachama ({{ members|length }})</h2>
+  <p class="section-sub">Dashibodi ya wanachama wote wa Baraza la Vijana Dodo na namba zao za uanachama.</p>
+
+  <form method="GET" class="search-box">
+    <input type="text" name="q" placeholder="Tafuta kwa jina, namba ya uanachama, au mtaa..." value="{{ q }}">
+    <button type="submit" class="btn btn-outline btn-sm"><i class="fas fa-search"></i> Tafuta</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Namba ya Uanachama</th>
+          <th>Jina</th>
+          <th>Umri</th>
+          <th>Mtaa/Kijiji</th>
+          <th>Elimu</th>
+          {% if current_user.is_admin %}<th>Vitendo</th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in members %}
+        <tr>
+          <td><a class="member-link" href="{{ url_for('member_detail', user_id=m.id) }}">{{ m.member_no }}</a></td>
+          <td>{{ m.full_name }}</td>
+          <td>{{ m.age or '-' }}</td>
+          <td>{{ m.area or '-' }}</td>
+          <td>{{ m.education or '-' }}</td>
+          {% if current_user.is_admin %}
+          <td>
+            <form method="POST" action="{{ url_for('delete_member', user_id=m.id) }}" onsubmit="return confirm('Futa mwanachama {{ m.member_no }}?');" style="display:inline;">
+              <button type="submit" class="delete-btn"><i class="fas fa-trash"></i> Futa</button>
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+        {% else %}
+        <tr><td colspan="6">Hakuna mwanachama aliyepatikana.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if current_user.is_admin %}
+  <div class="print-area">
+    <span><i class="fas fa-file-export"></i> <strong>Pakua/Chapisha taarifa za wanachama wote</strong></span>
+    <div class="btn-group">
+      <a class="btn btn-outline btn-sm" href="{{ url_for('export_csv') }}"><i class="fas fa-file-csv"></i> CSV</a>
+      <a class="btn btn-outline btn-sm" href="{{ url_for('export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+      <button class="btn btn-sm" onclick="window.print()"><i class="fas fa-print"></i> PRINT</button>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

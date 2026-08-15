@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}BVD | Jiunge{% endblock %}
+{% block content %}
+
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-pen-alt"></i> Fomu ya Kujiunga <span class="admin-tag"><i class="fas fa-shield-alt"></i> salama</span></h2>
+  <p class="section-sub">Jaza taarifa zako. Utapewa namba ya uanachama (BVD/xxxx) na utahitajika kuingia (login) kwa namba yako ya simu na password baada ya kujisajili.</p>
+
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-grid">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Jina Kamili</label>
+        <input type="text" name="full_name" placeholder="Mfano: Ali Juma" value="{{ form.full_name or '' }}" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-calendar-alt"></i> Tarehe ya Kuzaliwa</label>
+        <input type="date" name="dob" value="{{ form.dob or '' }}" required>
+        <span class="age-hint">✔ umri utahesabiwa moja kwa moja na kusasishwa kila mwaka</span>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-image"></i> Picha yako (hiari)</label>
+        <input type="file" name="photo" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-map-pin"></i> Mtaa / Kijiji</label>
+        <input type="text" name="area" placeholder="Mtaa wa Dodo" value="{{ form.area or '' }}" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-graduation-cap"></i> Elimu</label>
+        <select name="education">
+          <option value="">Chagua</option>
+          <option {{ 'selected' if form.education == 'Shule ya Msingi' }}>Shule ya Msingi</option>
+          <option {{ 'selected' if form.education == 'Shule ya Sekondari' }}>Shule ya Sekondari</option>
+          <option {{ 'selected' if form.education == 'Chuo / University' }}>Chuo / University</option>
+          <option {{ 'selected' if form.education == 'Nyingine' }}>Nyingine</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-id-card"></i> Namba ya Kitambulisho</label>
+        <input type="text" name="id_number" placeholder="NZ123456789" value="{{ form.id_number or '' }}" required>
+      </div>
+      <div class="form-group full-width">
+        <label><i class="fas fa-phone-alt"></i> Namba ya Simu (itakuwa 'username' yako)</label>
+        <input type="tel" name="phone" placeholder="0712345678" pattern="0[0-9]{9}" value="{{ form.phone or '' }}" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-lock"></i> Password</label>
+        <input type="password" name="password" placeholder="Angalau herufi/namba 6" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-lock"></i> Thibitisha Password</label>
+        <input type="password" name="confirm_password" placeholder="Rudia password" required>
+      </div>
+    </div>
+    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Tuma Maombi</button>
+  </form>
+
+  <p style="margin-top:18px;">Tayari una akaunti? <a href="{{ url_for('login') }}">Ingia hapa</a></p>
+</div>
+
+{% endblock %}

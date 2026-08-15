@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}BVD | Matangazo{% endblock %}
+{% block content %}
+
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-bullhorn"></i> Matangazo {% if current_user.is_admin %}<span class="admin-tag"><i class="fas fa-lock"></i> Admin</span>{% endif %}</h2>
+  <p class="section-sub">Matangazo yote ya Baraza.</p>
+
+  {% for a in announcements %}
+    <div class="announce-item">
+      {% if a.photo %}<img src="{{ url_for('static', filename='uploads/' ~ a.photo) }}">{% else %}<i class="fas fa-calendar-day" style="color:#f5b041; font-size:1.2rem;"></i>{% endif %}
+      <div><strong>{{ a.date_text }}</strong> — {{ a.text }}</div>
+      {% if current_user.is_admin %}
+        <form method="POST" action="{{ url_for('delete_announcement', announcement_id=a.id) }}" style="position:absolute; right:16px; top:12px;" onsubmit="return confirm('Futa tangazo hili?');">
+          <button type="submit" class="delete-btn"><i class="fas fa-trash"></i> Futa</button>
+        </form>
+      {% endif %}
+    </div>
+  {% else %}
+    <p>Hakuna tangazo bado.</p>
+  {% endfor %}
+
+  {% if current_user.is_admin %}
+    <hr style="margin:26px 0; border:none; border-top:1px dashed #cbd5e1;">
+    <h3 style="margin-bottom:14px; color:#0a1e32;"><i class="fas fa-plus-circle"></i> Ongeza Tangazo</h3>
+    <form method="POST" action="{{ url_for('add_announcement') }}" enctype="multipart/form-data">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Tarehe (mfano: 15 Julai 2026)</label>
+          <input type="text" name="date_text" required>
+        </div>
+        <div class="form-group">
+          <label>Picha (hiari)</label>
+          <input type="file" name="photo" accept="image/*">
+        </div>
+        <div class="form-group full-width">
+          <label>Maandishi ya Tangazo</label>
+          <textarea name="text" rows="3" required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit"><i class="fas fa-plus-circle"></i> Ongeza Tangazo</button>
+    </form>
+  {% endif %}
+</div>
+
+{% endblock %}

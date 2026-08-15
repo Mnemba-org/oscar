@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}BVD | Nyumbani{% endblock %}
+{% block content %}
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>Baraza la Vijana <br><span>la Dodo</span></h1>
+    <p><i class="fas fa-check-circle" style="color:#f5b041;"></i> Sauti yetu, maendeleo yetu. Jiunge na jumuiya ya vijana wenye nguvu na maono.</p>
+    <div class="btn-group">
+      {% if not current_user.is_authenticated %}
+        <a class="btn btn-warning" href="{{ url_for('register') }}"><i class="fas fa-handshake"></i> Jiunge Sasa</a>
+        <a class="btn btn-outline" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Ingia</a>
+      {% else %}
+        <a class="btn btn-warning" href="{{ url_for('members') }}"><i class="fas fa-users"></i> Wanachama</a>
+        <a class="btn btn-outline" href="{{ url_for('leaders') }}"><i class="fas fa-address-card"></i> Viongozi</a>
+      {% endif %}
+      <a class="btn btn-whatsapp" href="https://wa.me/255658778142" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+  </div>
+  <div style="font-size: 5rem; color: #f5b041; opacity: 0.2;"><i class="fas fa-people-arrows"></i></div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <i class="fas fa-user-check" style="font-size:2.4rem; color:#0a1e32;"></i>
+    <h3>Wanachama {{ member_count }}</h3>
+    <p>Vijana wanaounda mabadiliko</p>
+  </div>
+  <div class="stat-box">
+    <i class="fas fa-calendar-check" style="font-size:2.4rem; color:#f5b041;"></i>
+    <h3>Miradi {{ project_count }}</h3>
+    <p>Inaendelea na mafanikio</p>
+  </div>
+  <div class="stat-box">
+    <i class="fas fa-chart-line" style="font-size:2.4rem; color:#0a1e32;"></i>
+    <h3>Pamoja Tunaweza</h3>
+    <p>Maendeleo ya vijana wa Dodo</p>
+  </div>
+</div>
+
+{% if announcements %}
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-bullhorn"></i> Matangazo ya Karibuni</h2>
+  {% for a in announcements %}
+    <div class="announce-item">
+      {% if a.photo %}<img src="{{ url_for('static', filename='uploads/' ~ a.photo) }}">{% else %}<i class="fas fa-calendar-day" style="color:#f5b041; font-size:1.2rem;"></i>{% endif %}
+      <div><strong>{{ a.date_text }}</strong> — {{ a.text }}</div>
+    </div>
+  {% endfor %}
+  <div style="margin-top:14px;">
+    <a href="{{ url_for('announcements') }}" class="btn btn-outline btn-sm">Ona Matangazo Yote</a>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

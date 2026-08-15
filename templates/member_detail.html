@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}BVD | {{ member.full_name }}{% endblock %}
+{% block content %}
+
+<div class="section-card" style="max-width:520px; margin-left:auto; margin-right:auto;">
+  {% if member.photo %}
+    <img class="detail-photo" src="{{ url_for('static', filename='uploads/' ~ member.photo) }}">
+  {% else %}
+    <div style="text-align:center; font-size:3.4rem; margin-bottom:14px;">👤</div>
+  {% endif %}
+  <h3 style="text-align:center; margin-bottom:6px;">{{ member.full_name }}</h3>
+  <p style="text-align:center; color:#f5b041; font-weight:700; margin-bottom:18px;">{{ member.member_no }}</p>
+
+  <div class="detail-row"><span class="label">Umri</span><span class="value">{{ member.age or '-' }}</span></div>
+  <div class="detail-row"><span class="label">Mtaa/Kijiji</span><span class="value">{{ member.area or '-' }}</span></div>
+  <div class="detail-row"><span class="label">Elimu</span><span class="value">{{ member.education or '-' }}</span></div>
+
+  {% if full_access %}
+    <div class="detail-row"><span class="label">Namba ya Simu</span><span class="value">{{ member.phone }}</span></div>
+    <div class="detail-row"><span class="label">Namba ya Kitambulisho</span><span class="value">{{ member.id_number or '-' }}</span></div>
+    <div class="detail-row"><span class="label">Tarehe ya Kujiunga</span><span class="value">{{ member.created_at.strftime('%d-%m-%Y') if member.created_at else '-' }}</span></div>
+  {% else %}
+    <p style="margin-top:16px; color:#94a3b8; font-size:0.85rem;"><i class="fas fa-lock"></i> Taarifa nyingine (simu, kitambulisho) zinaonekana kwa admin pekee.</p>
+  {% endif %}
+
+  {% if current_user.is_admin %}
+    <form method="POST" action="{{ url_for('delete_member', user_id=member.id) }}" style="margin-top:20px;" onsubmit="return confirm('Futa mwanachama huyu?');">
+      <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Futa Mwanachama</button>
+    </form>
+  {% endif %}
+
+  <div style="margin-top:16px;">
+    <a href="{{ url_for('members') }}" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Rudi Wanachama</a>
+  </div>
+</div>
+
+{% endblock %}

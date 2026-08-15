@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}BVD | Baraza la Vijana Dodo{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <span>
+      <i class="fas fa-phone-alt"></i> <a href="https://wa.me/255658778142" target="_blank">0658 778 142</a>
+      &nbsp;|&nbsp; <i class="fas fa-envelope"></i> bvd@dodo.go.tz
+    </span>
+    <span>
+      {% if current_user.is_authenticated %}
+        <i class="fas fa-user-circle"></i> {{ current_user.full_name }}
+        {% if current_user.is_admin %}<span class="admin-badge">ADMIN</span>{% endif %}
+        &nbsp;|&nbsp; <a href="{{ url_for('logout') }}">Toka (Logout)</a>
+      {% else %}
+        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Ingia</a>
+        &nbsp;|&nbsp;
+        <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Jiunge</a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+<header>
+  <div class="container header-flex">
+    <a href="{{ url_for('home') }}" class="logo">
+      <span class="logo-badge">BVD</span>
+      <span class="logo-text">BVD <small>Baraza la Vijana Dodo</small></span>
+    </a>
+    <nav>
+      <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' }}"><i class="fas fa-home"></i> Nyumbani</a>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('projects') }}" class="{{ 'active' if request.endpoint == 'projects' }}"><i class="fas fa-project-diagram"></i> Miradi</a>
+        <a href="{{ url_for('announcements') }}" class="{{ 'active' if request.endpoint == 'announcements' }}"><i class="fas fa-bullhorn"></i> Matangazo</a>
+        <a href="{{ url_for('leaders') }}" class="{{ 'active' if request.endpoint == 'leaders' }}"><i class="fas fa-user-tie"></i> Viongozi</a>
+        <a href="{{ url_for('members') }}" class="{{ 'active' if request.endpoint in ['members','member_detail'] }}"><i class="fas fa-id-card"></i> Wanachama</a>
+        {% if current_user.is_admin %}
+          <a href="{{ url_for('admin_panel') }}" class="{{ 'active' if request.endpoint == 'admin_panel' }}"><i class="fas fa-lock"></i> Admin <span class="admin-badge">PANEL</span></a>
+        {% endif %}
+      {% else %}
+        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Ingia</a>
+        <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Jiunge</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-list">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="container">
+    <p><i class="fas fa-phone-alt"></i> <a href="https://wa.me/255658778142" target="_blank">0658 778 142</a>
+      &nbsp;|&nbsp; <i class="fas fa-envelope"></i> bvd@dodo.go.tz</p>
+    <p style="margin-top:8px;">© 2026 Baraza la Vijana la Dodo (BVD)</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}BVD | Ongeza Admin{% endblock %}
+{% block content %}
+
+<div class="section-card" style="max-width:520px; margin-left:auto; margin-right:auto;">
+  <h2 class="section-title"><i class="fas fa-user-shield"></i> Ongeza Admin Mwingine</h2>
+  <p class="section-sub">Admin mpya atakuwa na ruhusa sawa na wewe (kuongeza/kufuta Matangazo, Miradi, Viongozi, kusimamia Wanachama, na kupakua taarifa).</p>
+
+  <form method="POST">
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><i class="fas fa-user"></i> Jina Kamili</label>
+      <input type="text" name="full_name" required>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><i class="fas fa-phone-alt"></i> Namba ya Simu</label>
+      <input type="tel" name="phone" placeholder="0712345678" pattern="0[0-9]{9}" required>
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-lock"></i> Password</label>
+      <input type="password" name="password" placeholder="Angalau herufi/namba 6" required>
+    </div>
+    <button type="submit" class="btn-submit"><i class="fas fa-user-shield"></i> Ongeza Admin</button>
+  </form>
+
+  <div style="margin-top:16px;">
+    <a href="{{ url_for('admin_panel') }}" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Rudi Admin Panel</a>
+  </div>
+</div>
+
+{% endblock %}

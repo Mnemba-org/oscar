@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}BVD | Ingia{% endblock %}
+{% block content %}
+
+<div class="section-card login-box">
+  <h2 class="section-title"><i class="fas fa-sign-in-alt"></i> Ingia (Login)</h2>
+  <p class="section-sub">Tumia namba yako ya simu (mfumo 0xxxxxxxxx) na password uliyoweka ulipojiunga.</p>
+
+  <form method="POST">
+    <div class="form-group" style="margin-bottom:18px;">
+      <label><i class="fas fa-phone-alt"></i> Namba ya Simu</label>
+      <input type="tel" name="phone" placeholder="0712345678" pattern="0[0-9]{9}" required>
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-lock"></i> Password</label>
+      <input type="password" name="password" required>
+    </div>
+    <button type="submit" class="btn-submit"><i class="fas fa-sign-in-alt"></i> Ingia</button>
+  </form>
+
+  <p style="margin-top:18px;">Bado hujajiunga? <a href="{{ url_for('register') }}">Jiunge hapa</a></p>
+</div>
+
+{% endblock %}

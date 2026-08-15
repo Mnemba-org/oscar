@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}BVD | Miradi{% endblock %}
+{% block content %}
+
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-tasks"></i> Miradi {% if current_user.is_admin %}<span class="admin-tag"><i class="fas fa-lock"></i> Admin</span>{% endif %}</h2>
+  <p class="section-sub">Miradi yanayoendelea ya Baraza la Vijana Dodo.</p>
+
+  <div class="card-grid">
+    {% for p in projects %}
+      <div class="card">
+        {% if p.photo %}<img src="{{ url_for('static', filename='uploads/' ~ p.photo) }}">{% else %}<div style="font-size:2.6rem;">📌</div>{% endif %}
+        <h4>{{ p.name }}</h4>
+        <p>{{ p.description }}</p>
+        <span class="badge {{ 'badge-green' if p.status == 'endelea' else 'badge-blue' }}">{{ p.status }}</span>
+        {% if current_user.is_admin %}
+          <form method="POST" action="{{ url_for('delete_project', project_id=p.id) }}" style="margin-top:10px;" onsubmit="return confirm('Futa mradi huu?');">
+            <button type="submit" class="delete-btn"><i class="fas fa-trash"></i> Futa</button>
+          </form>
+        {% endif %}
+      </div>
+    {% else %}
+      <p>Hakuna mradi bado.</p>
+    {% endfor %}
+  </div>
+
+  {% if current_user.is_admin %}
+    <hr style="margin:26px 0; border:none; border-top:1px dashed #cbd5e1;">
+    <h3 style="margin-bottom:14px; color:#0a1e32;"><i class="fas fa-plus-circle"></i> Ongeza Mradi Mpya</h3>
+    <form method="POST" action="{{ url_for('add_project') }}" enctype="multipart/form-data">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Jina la Mradi</label>
+          <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Hali</label>
+          <select name="status">
+            <option value="endelea">Inaendelea</option>
+            <option value="mpya">Mpya</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>Maelezo</label>
+          <textarea name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Picha (hiari)</label>
+          <input type="file" name="photo" accept="image/*">
+        </div>
+      </div>
+      <button type="submit" class="btn-submit"><i class="fas fa-plus-circle"></i> Ongeza Mradi</button>
+    </form>
+  {% endif %}
+</div>
+
+{% endblock %}

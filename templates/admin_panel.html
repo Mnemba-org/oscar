@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}BVD | Admin Panel{% endblock %}
+{% block content %}
+
+<div class="section-card">
+  <h2 class="section-title"><i class="fas fa-lock"></i> Admin Panel</h2>
+  <p class="section-sub">Karibu, {{ current_user.full_name }}. Hapa ndipo unaposimamia mfumo mzima.</p>
+
+  <div class="admin-stats">
+    <div class="admin-stat"><div class="num">{{ member_count }}</div><div class="label">Wanachama</div></div>
+    <div class="admin-stat"><div class="num">{{ admin_count }}</div><div class="label">Admin</div></div>
+    <div class="admin-stat"><div class="num">{{ project_count }}</div><div class="label">Miradi</div></div>
+    <div class="admin-stat"><div class="num">{{ announcement_count }}</div><div class="label">Matangazo</div></div>
+    <div class="admin-stat"><div class="num">{{ leader_count }}</div><div class="label">Viongozi</div></div>
+  </div>
+
+  <hr style="margin:26px 0; border:none; border-top:1px dashed #cbd5e1;">
+
+  <h3 style="margin-bottom:14px; color:#0a1e32;"><i class="fas fa-bolt"></i> Vitendo vya Haraka</h3>
+  <div class="btn-group">
+    <a class="btn btn-admin" href="{{ url_for('add_admin') }}"><i class="fas fa-user-shield"></i> Ongeza Admin Mwingine</a>
+    <a class="btn btn-outline" href="{{ url_for('projects') }}"><i class="fas fa-project-diagram"></i> Simamia Miradi</a>
+    <a class="btn btn-outline" href="{{ url_for('announcements') }}"><i class="fas fa-bullhorn"></i> Simamia Matangazo</a>
+    <a class="btn btn-outline" href="{{ url_for('leaders') }}"><i class="fas fa-user-tie"></i> Simamia Viongozi</a>
+    <a class="btn btn-outline" href="{{ url_for('members') }}"><i class="fas fa-id-card"></i> Simamia Wanachama</a>
+  </div>
+
+  <hr style="margin:26px 0; border:none; border-top:1px dashed #cbd5e1;">
+
+  <h3 style="margin-bottom:14px; color:#0a1e32;"><i class="fas fa-file-export"></i> Export Taarifa za Wanachama</h3>
+  <div class="btn-group">
+    <a class="btn btn-outline" href="{{ url_for('export_csv') }}"><i class="fas fa-file-csv"></i> Pakua CSV</a>
+    <a class="btn btn-outline" href="{{ url_for('export_pdf') }}"><i class="fas fa-file-pdf"></i> Pakua PDF</a>
+  </div>
+
+  <hr style="margin:26px 0; border:none; border-top:1px dashed #cbd5e1;">
+
+  <h3 style="margin-bottom:14px; color:#0a1e32;"><i class="fas fa-user-plus"></i> Wanachama Waliojiunga Hivi Karibuni</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Namba</th><th>Jina</th><th>Umri</th><th>Mtaa</th></tr></thead>
+      <tbody>
+        {% for m in recent_members %}
+        <tr>
+          <td><a class="member-link" href="{{ url_for('member_detail', user_id=m.id) }}">{{ m.member_no }}</a></td>
+          <td>{{ m.full_name }}</td>
+          <td>{{ m.age or '-' }}</td>
+          <td>{{ m.area or '-' }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">Bado hakuna mwanachama.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
