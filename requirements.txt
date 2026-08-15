@@ -1,6 +1,0 @@
-Flask
-gunicorn
-twilio
-google-genai
-google-api-python-client
-google-auth
